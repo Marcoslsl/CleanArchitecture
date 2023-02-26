@@ -1,3 +1,4 @@
+from typing import List
 from src.infra.configs import DBConnectionHandler
 from src.infra.entities import Users as UsersModel
 from src.domain.models import Users
@@ -36,3 +37,54 @@ class UserRepository:
                 db_connection.session.close()
 
         return None
+
+    @classmethod
+    def select_user(cls, user_id: int = None, name: str = None) -> List[Users]:
+        """Select data in user entity.
+
+        Parameters
+        ----------
+        user_id: int, default=None
+            Id of the register
+        name: str, default=None
+            User name
+        return: list
+            List with users selected
+        """
+        try:
+            query = None
+
+            if user_id and not name:
+                with DBConnectionHandler() as db_conn:
+                    data = (
+                        db_conn.session.query(UsersModel)
+                        .filter_by(id=user_id)
+                        .one()
+                    )
+                    query = [data]
+
+            elif not user_id and name:
+                with DBConnectionHandler() as db_conn:
+                    data = (
+                        db_conn.session.query(UsersModel)
+                        .filter_by(name=name)
+                        .one()
+                    )
+                    query = [data]
+
+            elif user_id and name:
+                with DBConnectionHandler() as db_conn:
+                    data = (
+                        db_conn.session.query(UsersModel)
+                        .filter_by(id=user_id, name=name)
+                        .one()
+                    )
+                    query = [data]
+
+            return query
+
+        except Exception as e:
+            db_conn.session.rollback()
+            raise e
+        finally:
+            db_conn.session.close()
