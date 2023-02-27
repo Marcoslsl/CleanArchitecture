@@ -36,4 +36,4 @@ class RegisterUser(RegisterUserInterface):
             msg = """name and password must be 'str'."""
             raise TypeError(msg)
 
-        return {"Sucess": validate_entry, "Data": response}
+        return {"Success": validate_entry, "Data": response}

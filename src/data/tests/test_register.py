@@ -18,5 +18,5 @@ def test_register():
     assert user_repo.insert_user_params["name"] == attributes["name"]
     assert user_repo.insert_user_params["password"] == attributes["password"]
 
-    assert response["Sucess"] is True
+    assert response["Success"] is True
     assert response["Data"]
