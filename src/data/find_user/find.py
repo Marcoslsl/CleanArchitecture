@@ -50,7 +50,7 @@ class FindUser(FindUserInterface):
     def by_id_and_name(
         self, name: str, user_id: int
     ) -> Dict[bool, List[Users]]:
-        """Select user by id.
+        """Select user by id and name.
 
         Parameters
         ----------
